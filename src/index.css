@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+    --color-primary: #F5C519;
+    --color-secondary: #1A386A;
+    --color-ternary: #FDEDB9;
+
+    --color-background: #F3F2F0;
+
+
+    --color-black-transparent: #00000075;
+    --color-black-transparent-25: #00000025;
+    --color-black-transparent-50: #00000050;
+    --color-black-transparent-90: #00000090;
+
+    --color-white-transparent: #ffffff75;
+    --color-white-transparent-25: #ffffff25;
+    --color-white-transparent-50: #ffffff50;
+    --color-white-transparent-90: #ffffff90;
+}
+
+@layer components {
+    .btn-food {
+        @apply px-4 py-2 bg-white rounded-4xl text-sm cursor-pointer whitespace-nowrap shadow-sm;
+    }
+
+    .btn-food.active {
+        @apply bg-primary;
+    }
+
+    .hideScroll {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .hideScroll::-webkit-scrollbar {
+        display: none;
+    }
+}
