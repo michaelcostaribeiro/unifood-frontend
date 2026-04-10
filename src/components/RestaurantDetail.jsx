@@ -12,8 +12,8 @@ const RestaurantDetail = () => {
         const fetchData = async () => {
             try {
                 const [restaurantRes, foodsRes] = await Promise.all([
-                    fetch(`http://127.0.0.1:8000/api/restaurant/${id}`),
-                    fetch(`http://127.0.0.1:8000/api/foods/${id}`),]
+                    fetch(`https://azulciano57.pythonanywhere.com/api/restaurant/${id}`),
+                    fetch(`https://azulciano57.pythonanywhere.com/api/foods/${id}`),]
                 )
                 const restaurantData = await restaurantRes.json();
                 const foodsData = await foodsRes.json();

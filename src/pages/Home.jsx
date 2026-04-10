@@ -14,8 +14,8 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [restaurantRes, typesRes] = await Promise.all([fetch('http://127.0.0.1:8000/api/restaurants/'),
-        fetch('http://127.0.0.1:8000/api/types'),
+        const [restaurantRes, typesRes] = await Promise.all([fetch('https://azulciano57.pythonanywhere.com/api/restaurants/'),
+          fetch('https://azulciano57.pythonanywhere.com/api/types'),
         ]);
         const restaurantsData = await restaurantRes.json();
         const typesData = await typesRes.json();
