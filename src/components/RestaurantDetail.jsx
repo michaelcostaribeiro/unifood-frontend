@@ -53,12 +53,12 @@ const RestaurantDetail = () => {
             </header>
             <div className='flex gap-2 overflow-x-scroll hideScroll p-3 shadow-sm'>
                 {foodTypes.map((type)=> {
-                    return <button className='px-3 py-1 bg-blue-300 rounded-2xl text-sm'>{type}</button>
+                    return <button className='px-3 py-1 bg-secondary text-white rounded-2xl text-sm' key={type}>{type}</button>
                 })}
             </div>
             <div className='my-5 flex flex-col gap-5'>
                 {foods.map((food) => {
-                    return <div className='w-[90%] m-auto bg-white p-5 rounded-2xl shadow-sm flex flex-col gap-1'>
+                    return <div className='w-[90%] m-auto bg-white p-5 rounded-2xl shadow-sm flex flex-col gap-1' key={food.id}>
                         <h2 className='font-bold'>{food.name}</h2>
                         <p className='text-sm opacity-50'>{food.description}</p>
                         <div className='flex justify-between items-center mt-1.5'>

@@ -23,7 +23,6 @@ const Home = () => {
         setAllRestaurants(restaurantsData.restaurants)
         setRestaurants(restaurantsData.restaurants)
         setFoodTypes(typesData.foodTypes)
-        console.log(typesData.foodTypes)
 
       } catch (error) {
         console.log(`something went wrong: ${error}`)
@@ -37,7 +36,6 @@ const Home = () => {
       return;
     }
     const filtered = allRestaurants.filter((rest) => {
-      console.log(rest.food_types)
       return rest.food_types === selectedType;
     });
     setRestaurants(filtered);
