@@ -28,6 +28,14 @@
         @apply bg-primary;
     }
 
+    .menu-btn {
+        @apply flex flex-col justify-center items-center text-sm gap-0.5
+    }
+
+    .menu-btn.active {
+        @apply text-secondary;
+    }
+
     .hideScroll {
         scrollbar-width: none;
         -ms-overflow-style: none;
