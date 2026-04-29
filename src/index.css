@@ -35,6 +35,18 @@
     .menu-btn.active {
         @apply text-secondary;
     }
+    .profile-btn{
+        @apply flex items-center text-lg py-2 gap-3 ;
+    }
+    .profile-btn svg{
+        @apply text-xl;
+    }
+    .login-input {
+        @apply border rounded-sm p-1 ; 
+    }
+    .login-submit {
+        @apply text-lg bg-primary rounded-sm py-1 mt-3;
+    }
 
     .hideScroll {
         scrollbar-width: none;
