@@ -1,16 +1,45 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { url } from '../../shared'
 
 const Login = () => {
-    const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password,setPassword] = useState('')
+    
+    const navigate = useNavigate()
+    const location = useLocation()
 
-    function login(e) {
+    async function login(e) {
         e.preventDefault()
+        const token_endpoint = 'api/token'
         const user = {
-            email,password
+            username,password
         }
-        console.log(user)
+        try{
+            const response = await fetch(url+token_endpoint,{
+                method: 'POST',
+                headers:{'Content-Type' : 'application/json'},
+                body: JSON.stringify({
+                    username: user.username,
+                    password:user.password,
+                })
+            })
+            const result = await response.json()
+            console.log(result)
+            if (response.status === 200) {
+                localStorage.clear()
+                localStorage.setItem('token', result.token)
+                localStorage.setItem('refresh', result.refresh)
+                if (location.state?.previousUrl){
+                    navigate(location.state.previousUrl)
+                }else{
+                    navigate('/')
+                }
+            }
+        }catch(e){
+            console.log(e.message)
+        }
+        
     }
 
     return (
@@ -22,14 +51,14 @@ const Login = () => {
                     </legend>
 
                     <div className="flex flex-col gap-1 mt-2">
-                        <label htmlFor="email" className='text-lg'>Email:</label>
+                        <label htmlFor="username" className='text-lg'>Nome:</label>
                         <input
-                            type="email"
-                            name='email'
-                            id='email'
+                            type="text"
+                            name='username'
+                            id='username'
                             className="login-input"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                         />
                         <label htmlFor="password" className='text-lg'>Senha:</label>
                         <input

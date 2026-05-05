@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { url } from '../../shared'
 
 const Register = () => {
     const [name, setName] = useState('')
@@ -8,10 +9,29 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
-    function register(e) {
+    async function register(e) {
         e.preventDefault()
+        const register_endpoint = 'register'
         const user = {
             name,surname,email,password,confirmPassword
+        }
+        if (password === confirmPassword){
+            const response = await fetch(url+register_endpoint,{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:{'name':name,
+                    'surname':surname,
+                    'email':email,
+                    'password':password
+                }
+            })
+
+            if (response.status === 200){
+                const result = await response.json()
+                localStorage.clear()
+                localStorage.setItem('token',result.token)
+                localStorage.setItem('refresh',result.refresh)
+            }
         }
         console.log(user)
     }

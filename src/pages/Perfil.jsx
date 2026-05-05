@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import icon from '../assets/favicon.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClipboardList, faHeart, faCircleQuestion, faGear, faCreditCard, faArrowRightFromBracket, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const Perfil = () => {
+    const navigate = useNavigate('')
+    useEffect(()=>{
+        if (!localStorage['token']){
+            navigate('/login',{
+                state:{
+                    previousUrl:'/perfil',
+                },
+            })
+        }
+    },[])
+
     return (
         <div className='px-3 pt-5'>
             <div className='flex flex-col gap-5'>
@@ -44,7 +55,10 @@ const Perfil = () => {
                 
                 </ul>
                 <hr className='opacity-10' />
-                <button className='profile-btn gap-2 border-1 rounded-lg px-2 py-3 border-black-transparent-25'><FontAwesomeIcon icon={faArrowRightFromBracket}/>Sair</button>
+                <button className='profile-btn gap-2 border-1 rounded-lg px-2 py-3 border-black-transparent-25' onClick={()=>{
+                    localStorage.clear()
+                    navigate('/login')
+                }}><FontAwesomeIcon icon={faArrowRightFromBracket}/>Sair</button>
 
             </div>
         </div>
