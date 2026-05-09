@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import FoodNav from '../components/FoodNav';
 import RestaurantList from '../components/RestaurantList';
 import Navbar from '../components/Navbar';
+import { url } from '../../shared';
 
 const Home = () => {
   const [restaurants, setRestaurants] = useState()
@@ -12,6 +13,7 @@ const Home = () => {
   const [selectedType, setSelectedType] = useState('Todos')
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const [restaurantRes, typesRes] = await Promise.all([fetch('https://azulciano57.pythonanywhere.com/api/restaurants/'),
@@ -29,6 +31,7 @@ const Home = () => {
       }
     }
     fetchData()
+
   }, [])
   useEffect(() => {
     if (selectedType === 'Todos') {

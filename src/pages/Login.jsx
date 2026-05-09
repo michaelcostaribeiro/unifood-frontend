@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { url } from '../../shared'
+import { LoginContext } from '../contexts/LoginContext'
 
 const Login = () => {
     const [username, setUsername] = useState('')
     const [password,setPassword] = useState('')
+    const {loggedIn, setLoggedIn} = useContext(LoginContext);
     
     const navigate = useNavigate()
     const location = useLocation()
 
     async function login(e) {
         e.preventDefault()
-        const token_endpoint = 'api/token'
+        const token_endpoint = 'api/token/'
         const user = {
             username,password
         }
@@ -28,8 +30,9 @@ const Login = () => {
             console.log(result)
             if (response.status === 200) {
                 localStorage.clear()
-                localStorage.setItem('token', result.token)
+                localStorage.setItem('token', result.access)
                 localStorage.setItem('refresh', result.refresh)
+                setLoggedIn(true)
                 if (location.state?.previousUrl){
                     navigate(location.state.previousUrl)
                 }else{
@@ -72,7 +75,7 @@ const Login = () => {
                         <input
                             type="submit"
                             value="Entrar"
-                            className='login-submit' />
+                            className='login-submit cursor-pointer' />
                     </div>
                 </fieldset>
             </form>

@@ -3,15 +3,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faLocationDot, faBell } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo.png'
 import icon from '../assets/favicon.png'
+import { useContext, useEffect, useState } from "react";
+import { url } from "../../shared";
+import { LoginContext } from "../contexts/LoginContext";
 
 const Navbar = () => {
+    const [userInfo, setUserInfo] = useState()
+    const { loggedIn, setLoggedIn } = useContext(LoginContext);
+    useEffect(()=>{
+        const token = localStorage['token']
+        console.log(loggedIn)
+        if (!token || token === "undefined") {
+            setUserInfo(null)
+        }else{
+            async function getUserInfo () {
+                const userEndpoint = 'api/user/' 
+                const response = await fetch(url+userEndpoint,{
+                    method:'GET',
+                    headers: {
+                        'Content-Type' : 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                const data = await response.json()
+                setUserInfo(data)
+                console.log(data)
+            }
+            getUserInfo()
+        }
+
+    },[localStorage.getItem('token')])
   return (
     <header className="p-3 pt-5 ">
         <nav className="flex flex-col gap-5">
             <div>
                   <div className="flex justify-between">
                       <div className="text-xl">
-                              <p className="font-medium">Olá, luana 👋</p>
+                          <p className="font-medium">{userInfo ? `${userInfo['first_name']}👋` :'Ainda não possui uma conta?'}</p>
                               <p className=" flex gap-2 items-center text-base"><img src={icon} alt="" className="w-7 bg-white rounded-full" />Cantina Unifood</p>
                       </div>
 
