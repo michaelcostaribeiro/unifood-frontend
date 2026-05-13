@@ -47,6 +47,17 @@
     .login-submit {
         @apply text-lg bg-primary rounded-sm py-1 mt-3;
     }
+    .svg-border{
+        filter:drop-shadow(0 1px 0 rgba(0, 0, 0, 0.75)) drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.75)) drop-shadow(1px 0 0 rgba(0, 0, 0, 0.75)) drop-shadow(-1px 0 0 rgba(0, 0, 0, 0.75));
+    }
+    .svg-active{
+        filter: drop-shadow(0 1px 0 oklch(83.275% 0.17151 82.058 / 0.75)) drop-shadow(0 -1px 0 oklch(83.275% 0.17151 82.058 / 0.75)) drop-shadow(1px 0 0 oklch(83.275% 0.17151 82.058 / 0.75)) drop-shadow(-1px 0 0 oklch(83.275% 0.17151 82.058 / 0.75));
+        @apply text-amber-400;
+    }
+    .svg-off{
+        filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.5)) drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.5)) drop-shadow(1px 0 0 rgba(0, 0, 0, 0.5)) drop-shadow(-1px 0 0 rgba(0, 0, 0, 0.5));
+        @apply text-white;
+    }
 
     .hideScroll {
         scrollbar-width: none;

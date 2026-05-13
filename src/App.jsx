@@ -9,6 +9,8 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import { LoginContext } from './contexts/LoginContext'
 import { url } from '../shared'
+import Pedidos from './pages/Pedidos'
+import Favoritos from './pages/Favoritos'
 
 
 
@@ -59,6 +61,9 @@ function App() {
             <Route path='/perfil' element={<Perfil />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/pedidos' element={<Pedidos />} />
+            <Route path='/favoritos' element={<Favoritos />} />
+            
 
           </Routes>
         </LoginContext.Provider>

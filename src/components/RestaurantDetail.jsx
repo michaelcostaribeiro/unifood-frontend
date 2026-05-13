@@ -2,42 +2,106 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faStar, faClock } from '@fortawesome/free-solid-svg-icons';
+import { url } from '../../shared';
 
 const RestaurantDetail = () => {
     const { id } = useParams()
     const [restaurant, setRestaurant] = useState()
     const [foods, setFoods] = useState()
     const [foodTypes, setFoodTypes] = useState()
+
+    const [isFavorite, setIsFavorite] = useState()
+
+    const favoritesEndpoint = 'api/favorites/'
+    const favoriteEndpoint = `api/favorite/${id}`
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [restaurantRes, foodsRes] = await Promise.all([
-                    fetch(`https://azulciano57.pythonanywhere.com/api/restaurant/${id}`),
-                    fetch(`https://azulciano57.pythonanywhere.com/api/foods/${id}`),]
+                    fetch(`${url}api/restaurant/${id}`),
+                    fetch(`${url}api/foods/${id}`),]
                 )
                 const restaurantData = await restaurantRes.json();
                 const foodsData = await foodsRes.json();
-
 
                 setRestaurant(restaurantData)
                 setFoods(foodsData.foods)
 
                 let allTypes = []
-                foodsData.foods.forEach((food)=>{
+                foodsData.foods.forEach((food) => {
                     allTypes.push(...food.food_types)
                 })
                 const uniqueTypes = ['Todos', ...new Set(allTypes)]
                 setFoodTypes([...uniqueTypes])
+
+
+                const favData = await getFavorite();
+                console.log(favData)
+                if (favData[0]){
+                    console.log('favoritado')
+                    setIsFavorite(true)
+                }else{
+                    console.log('não favoritado')
+                    setIsFavorite(false)
+                }
             } catch (error) {
                 console.log(`error: ${error}`)
             }
         }
         fetchData()
     }, [])
+    async function getFavorite() {
+        try {
+
+
+            const response = await fetch(`${url}${favoriteEndpoint}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.token}`
+                }
+            })
+            if (!response.ok) {
+                console.log(`Server returned ${response.status} for ${favoriteEndpoint}`)
+                return false
+            }
+            const data = await response.json();
+            return data
+        }
+        catch (e) {
+            console.log('Something went wrong: ', e.message);
+            return false
+
+        }
+    }
+
+    async function setFavorite(e) {
+        e.preventDefault()
+        const response = await fetch(`${url}${favoritesEndpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.token}`
+            },
+            body: JSON.stringify({
+                'restaurant': restaurant.id
+            })
+        })
+        const data = await response.json();
+        setIsFavorite(!isFavorite)
+        console.log(data)
+    }
+
     if (restaurant) {
         return (<>
             <header className='h-[40vh] relative' >
                 <Link to='/' className='bg-white w-10 h-10 rounded-full absolute top-5 left-5 flex justify-center items-center shadow-xl z-50'><FontAwesomeIcon icon={faArrowLeft} /></Link>
+                <button
+                    to='/'
+                    className='bg-white w-10 h-10 rounded-full absolute top-5 right-5 flex justify-center items-center shadow-xl z-50 '
+                    onClick={(e) => setFavorite(e)}>
+                    <FontAwesomeIcon icon={faStar} className={`transition-colors ${isFavorite ? 'svg-active' : 'svg-off' + ' transition'}`} />
+                </button>
                 <img src={`${restaurant.background_image_url}`} className='h-full w-full object-cover' alt="" />
                 <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/50 to-transparent"></div>
 
@@ -52,7 +116,7 @@ const RestaurantDetail = () => {
                 </div>
             </header>
             <div className='flex gap-2 overflow-x-scroll hideScroll p-3 shadow-sm'>
-                {foodTypes.map((type)=> {
+                {foodTypes.map((type) => {
                     return <button className='px-3 py-1 bg-secondary text-white rounded-2xl text-sm' key={type}>{type}</button>
                 })}
             </div>
