@@ -21,7 +21,6 @@ const Perfil = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token')
-        console.log(loggedIn)
 
         if (!token || token === "undefined") {
             setLoggedIn(false)
@@ -41,7 +40,6 @@ const Perfil = () => {
                     })
                     const data = await response.json()
                     setUserInfo(data)
-                    console.log(data)
                 } catch (e) {
                     console.log(e.message)
                 }

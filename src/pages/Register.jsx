@@ -12,14 +12,10 @@ const Register = () => {
     const { loggedIn, setLoggedIn } = useContext(LoginContext)
     const navigate = useNavigate()
 
-    function getRandomInt(min = 100_000, max = 999_999) {
-        return Math.floor(Math.random() * (max - min) + min);
-    }
     async function register(e) {
         e.preventDefault()
         const register_endpoint = 'api/register/'
         const user = {
-            'username': `${name.trim()}_${getRandomInt()}`, 
             name,
             surname, 
             email, 
@@ -32,7 +28,6 @@ const Register = () => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        'username': user.username,
                         'first_name': user.name.trim(),
                         'last_name': user.surname.trim(),
                         'email': user.email,
@@ -45,7 +40,7 @@ const Register = () => {
                 if (response.status === 201) {
                     console.log(result)
                     localStorage.clear()
-                    localStorage.setItem('token', result.token)
+                    localStorage.setItem('token', result.access)
                     localStorage.setItem('refresh', result.refresh)
                     setLoggedIn(true)
                     navigate('/')

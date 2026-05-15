@@ -7,7 +7,7 @@ const RestaurantModal = ({ restaurant }) => {
         return (
             <>
                 <Link className="relative h-50 flex flex-col rounded-3xl overflow-hidden bg-white pb-3 shadow-md cursor-pointer text-left" key={restaurant.id}
-                    to={`restaurant/${restaurant.id}`}>
+                    to={`/restaurant/${restaurant.id}`}>
                     <p className='absolute bg-white px-2 py-1 rounded-xl top-3 left-3 text-xs font-semibold'>{restaurant.food_types}</p>
                     <img
                         src={restaurant.background_image_url}

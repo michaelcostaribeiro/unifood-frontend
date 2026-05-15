@@ -9,11 +9,20 @@ const RestaurantDetail = () => {
     const [restaurant, setRestaurant] = useState()
     const [foods, setFoods] = useState()
     const [foodTypes, setFoodTypes] = useState()
+    const [addedProduct, setAddedProduct] = useState(false)
+    const [itemsToCart, setItemsToCart] = useState([])
 
     const [isFavorite, setIsFavorite] = useState()
 
     const favoritesEndpoint = 'api/favorites/'
     const favoriteEndpoint = `api/favorite/${id}`
+
+    function addItem (e,food) {
+        e.preventDefault()
+        setAddedProduct(true)
+    }
+
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -36,14 +45,25 @@ const RestaurantDetail = () => {
 
 
                 const favData = await getFavorite();
-                console.log(favData)
                 if (favData[0]){
-                    console.log('favoritado')
                     setIsFavorite(true)
                 }else{
-                    console.log('não favoritado')
                     setIsFavorite(false)
                 }
+
+
+                const itemsQuantity = await getItemsQuantity()
+                const updatedFoodsData = foodsData.foods.map(foodItem => {
+                    const quantityInfo = itemsQuantity.find(item => item.food === foodItem.id);
+                    return {
+                        ...foodItem,
+                        quantity: quantityInfo ? quantityInfo.quantity : 0
+                    };
+                });
+                setFoods(updatedFoodsData)
+
+                console.log(updatedFoodsData)
+
             } catch (error) {
                 console.log(`error: ${error}`)
             }
@@ -52,8 +72,6 @@ const RestaurantDetail = () => {
     }, [])
     async function getFavorite() {
         try {
-
-
             const response = await fetch(`${url}${favoriteEndpoint}`, {
                 method: 'GET',
                 headers: {
@@ -92,6 +110,19 @@ const RestaurantDetail = () => {
         console.log(data)
     }
 
+    async function getItemsQuantity(){
+        const itemsQuantityEndpoint = 'api/cartItems/'
+        const response = await fetch(`${url + itemsQuantityEndpoint}`,{
+            method:'GET',
+            headers:{
+                'Content-Type':'application/json',
+                'Authorization' : `Bearer ${localStorage.token}`
+            }
+        })
+        const data = await response.json();
+        return data
+    }
+
     if (restaurant) {
         return (<>
             <header className='h-[40vh] relative' >
@@ -127,8 +158,13 @@ const RestaurantDetail = () => {
                         <p className='text-sm opacity-50'>{food.description}</p>
                         <div className='flex justify-between items-center mt-1.5'>
                             <p className='text-red-500 font-bold'>R$ {food.price}</p>
-                            <div>
-                                <button className='w-7 h-7 bg-red-500 text-white rounded-full'>+</button>
+                            <div className='bg-green-400 text-white rounded-2xl flex items-center gap-2'>
+                                {food.quantity ? <>
+                                    <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => addItem(e, food)}>-</button>
+                                    <p>{food.quantity}</p>
+                                    <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => addItem(e, food)}>+</button>
+                                </> : <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => addItem(e, food)}>+</button>}
+                                
                             </div>
                         </div>
                     </div>

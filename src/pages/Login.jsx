@@ -4,7 +4,7 @@ import { url } from '../../shared'
 import { LoginContext } from '../contexts/LoginContext'
 
 const Login = () => {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password,setPassword] = useState('')
     const {loggedIn, setLoggedIn} = useContext(LoginContext);
     
@@ -15,14 +15,14 @@ const Login = () => {
         e.preventDefault()
         const token_endpoint = 'api/token/'
         const user = {
-            username,password
+            email,password
         }
         try{
             const response = await fetch(url+token_endpoint,{
                 method: 'POST',
                 headers:{'Content-Type' : 'application/json'},
                 body: JSON.stringify({
-                    username: user.username,
+                    email: user.email,
                     password:user.password,
                 })
             })
@@ -54,14 +54,14 @@ const Login = () => {
                     </legend>
 
                     <div className="flex flex-col gap-1 mt-2">
-                        <label htmlFor="username" className='text-lg'>Nome:</label>
+                        <label htmlFor="email" className='text-lg'>Email:</label>
                         <input
-                            type="text"
-                            name='username'
-                            id='username'
+                            type="email"
+                            name='email'
+                            id='email'
                             className="login-input"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                         <label htmlFor="password" className='text-lg'>Senha:</label>
                         <input

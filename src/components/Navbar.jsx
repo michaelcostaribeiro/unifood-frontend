@@ -12,7 +12,6 @@ const Navbar = () => {
     const { loggedIn, setLoggedIn } = useContext(LoginContext);
     useEffect(()=>{
         const token = localStorage['token']
-        console.log(loggedIn)
         if (!token || token === "undefined") {
             setUserInfo(null)
         }else{
@@ -27,7 +26,6 @@ const Navbar = () => {
                 })
                 const data = await response.json()
                 setUserInfo(data)
-                console.log(data)
             }
             getUserInfo()
         }

@@ -1,10 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Pedidos = () => {
     const [pedidos, setPedidos] = useState(false)
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        if(!localStorage.token){
+            navigate('/login')
+        }
+    },[])
+
     return (pedidos ?
         <div className='px-3 pt-5'>
             <h1 className='text-xl font-medium'>Favoritos</h1>

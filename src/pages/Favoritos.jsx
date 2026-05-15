@@ -3,13 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { url } from '../../shared';
 import RestaurantList from '../components/RestaurantList';
+import { useNavigate } from 'react-router-dom';
 
 const Favoritos = () => {
     const [restaurantesFavoritos, setRestaurantesFavoritos] = useState(false)
     const [restaurants, setRestaurants] = useState()
 
+    const navigate = useNavigate();
+
 
     useEffect(()=>{
+        if(!localStorage.token){
+            navigate('/login')
+        }
         const favoritesEndpoint = 'api/favorites/'
 
         async function getFavorites(){
