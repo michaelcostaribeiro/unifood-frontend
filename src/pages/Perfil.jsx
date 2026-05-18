@@ -49,15 +49,15 @@ const Perfil = () => {
     }, [])
 
     return (loggedIn ? (
-        <div className='px-3 pt-5'>
+        <div className='px-5 pt-5'>
             <div className='flex flex-col gap-5'>
-                <h1 className='text-xl font-medium'>Perfil</h1>
+                <h1 className='text-xl font-medium'>Perfil do aluno</h1>
 
                 <div className='flex items-center gap-4'>
                     <img src={icon} alt="" className='w-15 h-15 rounded-full bg-black-transparent-25' />
                     <div>
                         {userInfo && <h2>{`${userInfo['first_name']} ${userInfo['last_name']}`}</h2>}
-                        {userInfo && <p>{userInfo['email']}</p>}
+                        {userInfo && <p className='text-sm'>{userInfo['email']}</p>}
                     </div>
                 </div>
                 <div className='flex justify-between  font-semibold'>
