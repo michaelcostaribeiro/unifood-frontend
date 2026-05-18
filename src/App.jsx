@@ -52,7 +52,7 @@ function App() {
 
   return (
     <>
-      <main className='bg-gray-100 max-w-100 mb-20'>
+      <main className='bg-background max-w-100 mb-20'>
         <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
           <Menu />
           <Routes>

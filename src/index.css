@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
+
 @theme {
     --color-primary: #F78F5B;
-    --color-secondary: #C23B04;
-    --color-ternary: #F8EADE;
+    --color-primary-light: #FF812F;
+    --color-secondary: #FF5D20;
+    --color-secondary-light: #FF8631;
+    --color-ternary: #4A2C2A;
 
-    --color-background: #F3F2F0;
+    --color-background: #F5E6D3;
 
 
     --color-black-transparent: #00000075;
@@ -19,9 +22,15 @@
     --color-white-transparent-90: #ffffff90;
 }
 
+@layer base {
+    body{
+        font-family: 'Poppins', sans-serif;
+    }
+}
+
 @layer components {
     .btn-food {
-        @apply px-4 py-2 bg-white rounded-4xl text-sm cursor-pointer whitespace-nowrap shadow-sm;
+        @apply px-4 py-2 bg-primary-light text-white rounded-lg text-lg font-semibold cursor-pointer whitespace-nowrap shadow-sm;
     }
 
     .btn-food.active {

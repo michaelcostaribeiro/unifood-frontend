@@ -17,9 +17,41 @@ const RestaurantDetail = () => {
     const favoritesEndpoint = 'api/favorites/'
     const favoriteEndpoint = `api/favorite/${id}`
 
-    function addItem (e,food) {
+    async function setItem(e, food, addOrDelete) {
         e.preventDefault()
         setAddedProduct(true)
+        console.log(food)
+
+        const itemEndpoint = 'api/cartItem/'
+
+        const response = await fetch(url + itemEndpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.token}`
+            },
+            body: JSON.stringify({
+                food: food.id,
+                quantity: food.quantity,
+                add_or_delete : addOrDelete
+            })
+        })
+        if (response.ok) {
+            const data = await response.json();
+
+            setFoods(prevFoods =>
+                prevFoods.map(item => {
+                    if (item.id === food.id) {
+                        if (addOrDelete === 'add')
+                            return { ...item, quantity: item.quantity + 1 };
+                        if(addOrDelete === 'delete'){
+                            return {...item,quantity:item.quantity - 1}
+                        }
+                    }
+                    return item;
+                })
+            )
+        }
     }
 
 
@@ -45,9 +77,9 @@ const RestaurantDetail = () => {
 
 
                 const favData = await getFavorite();
-                if (favData[0]){
+                if (favData[0]) {
                     setIsFavorite(true)
-                }else{
+                } else {
                     setIsFavorite(false)
                 }
 
@@ -110,13 +142,13 @@ const RestaurantDetail = () => {
         console.log(data)
     }
 
-    async function getItemsQuantity(){
+    async function getItemsQuantity() {
         const itemsQuantityEndpoint = 'api/cartItems/'
-        const response = await fetch(`${url + itemsQuantityEndpoint}`,{
-            method:'GET',
-            headers:{
-                'Content-Type':'application/json',
-                'Authorization' : `Bearer ${localStorage.token}`
+        const response = await fetch(`${url + itemsQuantityEndpoint}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.token}`
             }
         })
         const data = await response.json();
@@ -160,11 +192,11 @@ const RestaurantDetail = () => {
                             <p className='text-red-500 font-bold'>R$ {food.price}</p>
                             <div className='bg-green-400 text-white rounded-2xl flex items-center gap-2'>
                                 {food.quantity ? <>
-                                    <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => addItem(e, food)}>-</button>
+                                    <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => setItem(e, food, 'delete')}>-</button>
                                     <p>{food.quantity}</p>
-                                    <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => addItem(e, food)}>+</button>
-                                </> : <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => addItem(e, food)}>+</button>}
-                                
+                                    <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => setItem(e, food, 'add')}>+</button>
+                                </> : <button className='w-7 h-7 bg-red-500 text-white rounded-full' onClick={(e) => setItem(e, food, 'add')}>+</button>}
+
                             </div>
                         </div>
                     </div>

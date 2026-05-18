@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 
 const FoodNav = ({ foodTypes, selectedType, setSelectedType }) => {
-    const allCategories = ['🍽 Todos', ...foodTypes.map((ftype) => `${ftype.type_icon} ${ftype.type_name}`)]
+    // const allCategories = ['🍽 Todos', ...foodTypes.map((ftype) => `${ftype.type_icon} ${ftype.type_name}`)]
+    const allCategories = ['Todos', ...foodTypes.map((ftype) => `${ftype.type_name}`)]
     return (
         <nav className='flex gap-2 overflow-x-scroll hideScroll py-1'>
             {allCategories.map((type, i) => {

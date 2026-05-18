@@ -5,6 +5,7 @@ import FoodNav from '../components/FoodNav';
 import RestaurantList from '../components/RestaurantList';
 import Navbar from '../components/Navbar';
 import { url } from '../../shared';
+import foodinho from '../assets/lilfood.png'
 
 const Home = () => {
   const [restaurants, setRestaurants] = useState()
@@ -13,11 +14,11 @@ const Home = () => {
   const [selectedType, setSelectedType] = useState('Todos')
 
   useEffect(() => {
-    
+
     const fetchData = async () => {
       try {
         const [restaurantRes, typesRes] = await Promise.all([fetch(`${url}api/restaurants/`),
-          fetch(`${url}api/types`),
+        fetch(`${url}api/types`),
         ]);
         const restaurantsData = await restaurantRes.json();
         const typesData = await typesRes.json();
@@ -47,15 +48,17 @@ const Home = () => {
     <Navbar />
 
     <div className="px-3 ">
-      <section className="bg-secondary text-white p-5 rounded-3xl my-3 shadow-lg ">
-        <p className="text-xs opacity-80">🕐 Pausa em breve?</p>
-        <h2 className="text-lg font-bold">Peça antes de sair!</h2>
-        <p className="opacity-80 text-xs mb-3">Evite filas e garanta sua refeição no horário da pausa.</p>
-        <ul className="flex gap-4 text-xs ">
-          <li><FontAwesomeIcon icon={faClock} /> Pronto na pausa</li>
-          <li><FontAwesomeIcon icon={faStar} /> Sem fila</li>
-          <li><FontAwesomeIcon icon={faUtensils} /> +5 opções</li>
-        </ul>
+      <section className="bg-gradient-to-b from-secondary-light to-secondary text-white py-5 h-50 px-3 rounded-3xl my-3 shadow-lg relative w-22/24 mx-auto">
+        <div className='flex h-full'>
+          <div className='flex flex-col justify-between h-full w-3/6 py-4'>
+            <h2 className='text-xl/6 font-bold '>Peça antes do seu intervalo!</h2>
+            <p className='text-sm/4 tracking-wide' >Evite filas e garanta a sua refeição antes do horário de intervalo </p>
+          </div>
+          <div className='w-2/6'></div>
+        </div>
+        <div className='w-43 h-full absolute right-0 top-0 flex items-center'>
+          <img src={foodinho} alt="" className='w-full' />
+        </div>
       </section>
 
       {foodTypes ? <FoodNav foodTypes={foodTypes}
@@ -63,8 +66,8 @@ const Home = () => {
         setSelectedType={setSelectedType} /> : ''}
 
       {restaurants ? <>
-        <div className='flex justify-between items-center'>
-          <h1 className='font-bold my-3'>Todos os restaurantes</h1>
+        <div className='flex justify-between items-center text-ternary'>
+          <h1 className='font-bold my-3'>Restaurantes perto de você</h1>
           <p className='text-xs opacity-50'>{restaurants.length} opções</p>
         </div>
         <RestaurantList restaurants={restaurants} />
